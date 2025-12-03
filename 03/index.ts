@@ -24,7 +24,7 @@ let sumOfJoltages = 0;
 
 for (const bank of banks) {
   const voltages = bank.split("").map((char) => parseInt(char, 10));
-  const joltage = getBankJoltage(voltages);
+  const joltage = getBankJoltage(voltages, 12);
   sumOfJoltages += joltage;
   console.log(`Bank: ${voltages.join("")}: joltage = ${joltage}`);
 }
