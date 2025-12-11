@@ -1,4 +1,3 @@
-// import input from "./input.txt" with { type: "text" };
 import input from "./input.txt" with { type: "text" };
 
 const devices = new Map<string, Set<string>>(
@@ -10,39 +9,27 @@ const devices = new Map<string, Set<string>>(
 
 console.time("Day 11, Part 1");
 
-// console.log(devices);
-
-let cacheHits = 0;
-
 const traceAllPaths = (
   from: string,
-  cache: Map<string, number> = new Map(),
+  cache = new Map<string, number>(),
 ): number => {
   if (from === "out") {
     return 1;
   }
 
-  const targets = devices.get(from);
-  if (!targets) {
-    throw new Error(`No device found for ${from}`);
-  }
-
-  const cacheKey = `${from}`;
-  let result = cache.get(cacheKey);
+  let result = cache.get(from);
   if (result !== undefined) {
-    cacheHits++;
     return result;
   }
   result = 0;
-  for (const target of targets) {
+  for (const target of devices.get(from)!) {
     result += traceAllPaths(target, cache);
   }
-  cache.set(cacheKey, result);
+  cache.set(from, result);
 
   return result;
 };
 
-console.log(traceAllPaths("you"));
+console.log("you", traceAllPaths("you"));
 
-console.log("Cache hits:", cacheHits);
 console.timeEnd("Day 11, Part 1");

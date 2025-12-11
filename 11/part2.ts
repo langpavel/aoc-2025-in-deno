@@ -1,4 +1,3 @@
-// import input from "./input.txt" with { type: "text" };
 import input from "./input.txt" with { type: "text" };
 
 const devices = new Map<string, Set<string>>(
@@ -8,16 +7,12 @@ const devices = new Map<string, Set<string>>(
   }),
 );
 
-console.time("Day 11, Part 1");
-
-// console.log(devices);
-
-let cacheHits = 0;
+console.time("Day 11, Part 2");
 
 const traceAllPaths = (
   from: string,
-  mustPass: Set<string> = new Set(),
-  cache: Map<string, number> = new Map(),
+  mustPass = new Set<string>(),
+  cache = new Map<string, number>(),
 ): number => {
   if (from === "out") {
     if (mustPass.size > 0) {
@@ -37,11 +32,9 @@ const traceAllPaths = (
     throw new Error(`No device found for ${from}`);
   }
 
-  const cacheKey = `${from}--${[...newMustPass].join("--")}`;
+  const cacheKey = [from, ...newMustPass].join("--");
   let result = cache.get(cacheKey);
   if (result !== undefined) {
-    // console.log(`Cache hit for ${cacheKey}`);
-    cacheHits++;
     return result;
   }
   result = 0;
@@ -55,5 +48,4 @@ const traceAllPaths = (
 
 console.log("svr", traceAllPaths("svr", new Set(["fft", "dac"])));
 
-console.log("Cache hits:", cacheHits);
 console.timeEnd("Day 11, Part 1");
